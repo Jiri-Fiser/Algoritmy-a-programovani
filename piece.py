@@ -14,14 +14,19 @@ class MoveResult(Enum):
 
 
 class Piece:
+    counter = 0  #statické/třídní proměnné
+
     def __init__(self, color:PColor):
         self._color = color
+        self.id = Piece.counter
+        Piece.counter += 1
+
     @property
     def color(self) -> PColor:
         return self._color
 
     def __repr__(self) -> str:
-        return f"Piece: [color={self.color}]"
+        return f"Piece({self.id}): [color={self.color}]"
 
 
 class Field:
@@ -64,4 +69,20 @@ class Field:
 if __name__ == "__main__":
     lp = [Piece(PColor.White) for _ in range(5)]
     f = Field(lp)
-    print(f)
+    f.push_piece(Piece(PColor.White))
+    print(len(f))
+    print(f.pop_piece())
+
+    print(f.test_pushing(PColor.White))
+    print(f.test_pushing(PColor.Black))
+
+    #f.push_piece(Piece(PColor.Black))
+
+    while f:
+        print(f.pop_piece())
+
+    print(f.test_pushing(PColor.White))
+    print(f.test_pushing(PColor.Black))
+
+    f.push_piece(Piece(PColor.White))
+    print(f.test_pushing(PColor.Black))
